@@ -1,0 +1,18 @@
+Package: sshfsr
+Title: Mount remote folders with 'sshfs' from R
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Elio",
+           family = "Campitelli",
+           role = c("cre", "aut"),
+           email = "elio.campitelli@cima.fcen.uba.ar",
+           comment = c(ORCID = "0000-0002-7742-9230"))
+Description: Allows you to mount remote folders with 'sshfs' and create ssh tunnels
+             if needed. Only works on unix-like platforms. 
+License: GPL-3
+Encoding: UTF-8
+Language: en
+LazyData: true
+Imports: 
+    R6
+RoxygenNote: 6.1.1
