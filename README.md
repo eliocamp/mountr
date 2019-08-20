@@ -1,19 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sshfsr
+# mountr
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-sshfs is a barebones package that allows you to mount remote folders
+mountr is a barebones package that allows you to mount remote folders
 using `sshfs`.
 
 ## Installation
 
-You can install the developement version of `sshfsr` from GitHub with:
+You can install the developement version of `mountr` from GitHub with:
 
 ``` r
-remotes::install_github("eliocamp/sshfsr")
+remotes::install_github("eliocamp/mountr")
 ```

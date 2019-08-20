@@ -1,4 +1,4 @@
-Package: sshfsr
+Package: mountr
 Title: Mount remote folders with 'sshfs' from R
 Version: 0.0.0.9000
 Authors@R: 
