@@ -97,11 +97,12 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #'
 #' @export
 #' @rdname sshfs
-sshfs_mount <- function(user, remote_server, remote_folder, local_folder) {
+sshfs_mount <- function(user, remote_server, remote_folder, local_folder, permission = "r") {
   mount <- sshfs_mount_point$new(user = user,
                                 remote_server = remote_server,
                                 remote_folder = remote_folder,
-                                local_folder = local_folder)
+                                local_folder = local_folder,
+                                permission = permission)
   return(mount)
 }
 
@@ -113,7 +114,7 @@ sshfs_unmount <- function(mount_point) {
 
 
 sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
-  initialize  = function(user, remote_server, remote_folder, local_folder) {
+  initialize  = function(user, remote_server, remote_folder, local_folder, permission = "r") {
     .check_system("sshfs")
     .check_system("ssh")
     .check_system("fusermount")
@@ -131,6 +132,9 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
     }
     command <- paste0("sshfs ", port_spec, " ", user, "@", remote_server, ":", remote_folder, " ", local_folder)
 
+    if (permission == "r") {
+      command <- paste0(command, " -o umask=337")
+    }
 
     system(command, intern = TRUE)
 

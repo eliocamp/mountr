@@ -5,7 +5,8 @@
 \alias{sshfs_unmount}
 \title{Mounts and unmounts a remote folder}
 \usage{
-sshfs_mount(user, remote_server, remote_folder, local_folder)
+sshfs_mount(user, remote_server, remote_folder, local_folder,
+  permission = "r")
 
 sshfs_unmount(mount_point)
 }
