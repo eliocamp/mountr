@@ -64,6 +64,7 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #' @param remote_folder server's folder to be mounted
 #' @param local_folder local folder where to mount
 #' @param mount_point mount_point object returned from [sshfs_mount]
+#' @param permission either "r" or "rw"
 #'
 #' @examples
 #' \dontrun{
@@ -97,7 +98,7 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #'
 #' @export
 #' @rdname sshfs
-sshfs_mount <- function(user, remote_server, remote_folder, local_folder, permission = "r") {
+sshfs_mount <- function(user, remote_server, remote_folder, local_folder, permission = c("r", "rw")) {
   mount <- sshfs_mount_point$new(user = user,
                                 remote_server = remote_server,
                                 remote_folder = remote_folder,
@@ -132,8 +133,8 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
     }
     command <- paste0("sshfs ", port_spec, " ", user, "@", remote_server, ":", remote_folder, " ", local_folder)
 
-    if (permission == "r") {
-      command <- paste0(command, " -o umask=337")
+    if (permission[1] == "r") {
+      command <- paste0(command, " -o default_permissions ")
     }
 
     system(command, intern = TRUE)
@@ -145,6 +146,10 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
 
   finalize = function() {
     system(self$unmount_command)
+  },
+
+  show = function() {
+    system(paste0("xdg-open ", self$folder))
   },
 
   folder = NA,
