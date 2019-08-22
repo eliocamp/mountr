@@ -65,6 +65,7 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #' @param local_folder local folder where to mount
 #' @param mount_point mount_point object returned from [sshfs_mount]
 #' @param permission either "r" or "rw"
+#' @param extra_args character string of extra arguments passed to `sshfh`.
 #'
 #' @examples
 #' \dontrun{
@@ -98,12 +99,14 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #'
 #' @export
 #' @rdname sshfs
-sshfs_mount <- function(user, remote_server, remote_folder, local_folder, permission = c("r", "rw")) {
+sshfs_mount <- function(user, remote_server, remote_folder, local_folder, permission = c("r", "rw"),
+                        extra_args= "") {
   mount <- sshfs_mount_point$new(user = user,
-                                remote_server = remote_server,
-                                remote_folder = remote_folder,
-                                local_folder = local_folder,
-                                permission = permission)
+                                 remote_server = remote_server,
+                                 remote_folder = remote_folder,
+                                 local_folder = local_folder,
+                                 permission = permission,
+                                 extra_args = extra_args)
   return(mount)
 }
 
@@ -115,14 +118,29 @@ sshfs_unmount <- function(mount_point) {
 
 
 sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
-  initialize  = function(user, remote_server, remote_folder, local_folder, permission = "r") {
+  initialize  = function(user, remote_server, remote_folder, local_folder, permission = "r",
+                         extra_args = "") {
+
+    os <- .sys_type()
+
+    unmount_command <- switch (os,
+                               "Darwin" = "umount",
+                               "Windows" = stop("mountr only works in unix platforms."),
+                               "fusermount -u"
+    )
+
     .check_system("sshfs")
     .check_system("ssh")
-    .check_system("fusermount")
 
     local_folder <- path.expand(local_folder)
 
-    dir.create(file.path(local_folder))
+    if (dir.exists(local_folder)) {
+      if (is.empty(local_folder)) {
+        stop(local_folder, " already exists and is not empty.")
+      }
+    } else {
+      dir.create(local_folder, showWarnings = FALSE, recursive = TRUE)
+    }
 
     if (inherits(remote_server, "sshfs_tunnel")) {
       local_port <- remote_server$local_port
@@ -137,21 +155,52 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
       command <- paste0(command, " -o default_permissions ")
     }
 
+    command <- paste0(command, " ", extra_args)
+
     system(command, intern = TRUE)
 
     self$folder <- local_folder
-    self$unmount_command <- paste0("fusermount -u ", local_folder)
+
+
+
+    self$unmount_command <- paste0(unmount_command, " ", local_folder)
     return(invisible(self))
   },
 
   finalize = function() {
-    system(self$unmount_command)
+    if (file.exits(self$folder)) {
+      out <- system(self$unmount_command, intern = TRUE, ignore.stdout = TRUE)
+      if (is.null(attr(out, "status"))) {
+        if (is.empty(self$folder)) {
+          file.remove(self$folder)
+        }
+      } else {
+        stop("Unmounting operation failed")
+      }
+    }
+    return(invisible(self))
   },
 
   show = function() {
-    system(paste0("xdg-open ", self$folder))
+    command <- paste0("xdg-open ", self$folder)
+    callr::r_bg(function(command) system(command), args = list(command = command))
+
+    return(invisible(self))
   },
 
   folder = NA,
   unmount_command = NA
 ))
+
+
+
+is.empty <- function(folder) {
+  if (file.exists(folder)) {
+    files <- list.files(path = local_folder, all.files = TRUE)
+    files <- files[!(files %in% c(".", ".."))]
+  } else {
+    stop(folder, " does not exists.")
+  }
+
+  length(files) == 0
+}

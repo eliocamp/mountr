@@ -12,6 +12,8 @@ using `sshfs`.
 
 ## Installation
 
+`sshfs` only works on unix platforms and requires `sshfs`
+
 You can install the developement version of `mountr` from GitHub with:
 
 ``` r

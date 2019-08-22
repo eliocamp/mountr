@@ -6,7 +6,7 @@
 \title{Mounts and unmounts a remote folder}
 \usage{
 sshfs_mount(user, remote_server, remote_folder, local_folder,
-  permission = c("r", "rw"))
+  permission = c("r", "rw"), extra_args = "")
 
 sshfs_unmount(mount_point)
 }
@@ -20,6 +20,8 @@ sshfs_unmount(mount_point)
 \item{local_folder}{local folder where to mount}
 
 \item{permission}{either "r" or "rw"}
+
+\item{extra_args}{character string of extra arguments passed to `sshfh`.}
 
 \item{mount_point}{mount_point object returned from [sshfs_mount]}
 }
