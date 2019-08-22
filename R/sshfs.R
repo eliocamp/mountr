@@ -132,7 +132,6 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
     .check_system("sshfs")
     .check_system("ssh")
 
-    local_folder <- path.expand(local_folder)
 
     if (dir.exists(local_folder)) {
       if (is.empty(local_folder)) {
@@ -168,7 +167,7 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
   },
 
   finalize = function() {
-    if (file.exits(self$folder)) {
+    if (file.exists(self$folder)) {
       out <- system(self$unmount_command, intern = TRUE, ignore.stdout = TRUE)
       if (is.null(attr(out, "status"))) {
         if (is.empty(self$folder)) {
