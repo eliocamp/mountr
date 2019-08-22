@@ -134,7 +134,7 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
 
 
     if (dir.exists(local_folder)) {
-      if (is.empty(local_folder)) {
+      if (!is.empty(local_folder)) {
         stop(local_folder, " already exists and is not empty.")
       }
     } else {
