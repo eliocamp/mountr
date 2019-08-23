@@ -195,7 +195,7 @@ sshfs_mount_point <- R6::R6Class("sshfh_mount_point", list(
 
 is.empty <- function(folder) {
   if (file.exists(folder)) {
-    files <- list.files(path = local_folder, all.files = TRUE)
+    files <- list.files(path = folder, all.files = TRUE)
     files <- files[!(files %in% c(".", ".."))]
   } else {
     stop(folder, " does not exists.")
