@@ -1,12 +1,16 @@
 Package: mountr
 Title: Mount remote folders with 'sshfs' from R
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "Elio",
            family = "Campitelli",
            role = c("cre", "aut"),
            email = "elio.campitelli@cima.fcen.uba.ar",
-           comment = c(ORCID = "0000-0002-7742-9230"))
+           comment = c(ORCID = "0000-0002-7742-9230")),
+    person(given = "Paola",
+           family = "Corrales",
+           role = c("ctb"),
+           email = "paola.corrales@cima.fcen.uba.ar")))
 Description: Allows you to mount remote folders with 'sshfs' and create ssh tunnels
              if needed. Only works on unix-like platforms. 
 License: GPL-3
