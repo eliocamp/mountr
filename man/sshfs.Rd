@@ -5,8 +5,14 @@
 \alias{sshfs_unmount}
 \title{Mounts and unmounts a remote folder}
 \usage{
-sshfs_mount(user, remote_server, remote_folder, local_folder,
-  permission = c("r", "rw"), extra_args = "")
+sshfs_mount(
+  user,
+  remote_server,
+  remote_folder,
+  local_folder,
+  permission = c("r", "rw"),
+  extra_args = ""
+)
 
 sshfs_unmount(mount_point)
 }
@@ -21,41 +27,10 @@ sshfs_unmount(mount_point)
 
 \item{permission}{either "r" or "rw"}
 
-\item{extra_args}{character string of extra arguments passed to `sshfh`.}
+\item{extra_args}{character string of extra arguments passed to `sshfs`.}
 
 \item{mount_point}{mount_point object returned from [sshfs_mount]}
 }
 \description{
 Mounts and unmounts a remote folder
-}
-\examples{
-\dontrun{
-mount <- sshfs_mount(user = "myself",
-                     remote_server = "server.domain",
-                     remote_folder = "~/data_folder",
-                     local_folder = "./DATA)
-
-# Now you can access your files with
-list.files(mount$folder)
-
-# Unmount when done
-sshfs_unmount(mount)
-
-# If you need to tunnel over another server, first create the
-# tunnel and then pass the object as a `remote_server`
-tunnel <- tunnel_open(user = "myself",
-                      tunnel_server = "portal.domain",
-                      remote_server = "server.domain")
-
-mount <- sshfs_mount(user = "myself",
-                     remote_server = tunnel,
-                     remote_folder = "~/data_folder",
-                     local_folder = "./DATA)
-
-# When done, unmount and close the tunnel.
-sshfs_unmount(mount)
-tunnel_close(tunnel)
-
-}
-
 }

@@ -1,4 +1,5 @@
 
+# nocov
 .check_system <- function(package) {
   out <- suppressWarnings(system(paste0("which ", package), intern = TRUE))
 
@@ -12,3 +13,4 @@
 .sys_type <- function() {
   return(Sys.info()["sysname"])
 }
+

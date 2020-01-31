@@ -5,8 +5,13 @@
 \alias{tunnel_close}
 \title{Opens up a ssh tunnel}
 \usage{
-tunnel_open(user, tunnel_server, remote_server, local_port = 4567,
-  remote_port = 22)
+tunnel_open(
+  user,
+  tunnel_server,
+  remote_server,
+  local_port = 4567,
+  remote_port = 22
+)
 
 tunnel_close(tunnel)
 }

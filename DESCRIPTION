@@ -10,7 +10,7 @@ Authors@R: c(
     person(given = "Paola",
            family = "Corrales",
            role = c("ctb"),
-           email = "paola.corrales@cima.fcen.uba.ar")))
+           email = "paola.corrales@cima.fcen.uba.ar"))
 Description: Allows you to mount remote folders with 'sshfs' and create ssh tunnels
              if needed. Only works on unix-like platforms. 
 License: GPL-3
@@ -19,4 +19,6 @@ Language: en
 LazyData: true
 Imports: 
     R6
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Suggests: 
+    testthat (>= 2.1.0)
