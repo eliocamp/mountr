@@ -91,7 +91,7 @@ tunnel <- R6::R6Class("sshfs_tunnel", list(
 #' mount <- sshfs_mount(user = "myself",
 #'                      remote_server = tunnel,
 #'                      remote_folder = "~/data_folder",
-#'                      local_folder = "DATA)
+#'                      local_folder = "DATA")
 #' mount$mount()
 #' # When done, unmount and close the tunnel.
 #' sshfs_unmount(mount)

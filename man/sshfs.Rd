@@ -34,3 +34,36 @@ sshfs_unmount(mount_point)
 \description{
 Mounts and unmounts a remote folder
 }
+\examples{
+\dontrun{
+mount <- sshfs_mount(user = "myself",
+                     remote_server = "server.domain",
+                     remote_folder = "~/data_folder",    # expands to "/home/myself/data_folder"
+                     local_folder = "DATA")
+# Mount the mountpoint
+mount$mount()
+# Now you can access your files with
+list.files(mount$folder)
+
+# Unmount when done
+sshfs_unmount(mount)
+# or mount$unmount()
+
+# If you need to tunnel over another server, first create the
+# tunnel and then pass the object as a `remote_server`
+tunnel <- tunnel_open(user = "myself",
+                      tunnel_server = "portal.domain",
+                      remote_server = "server.domain")
+
+mount <- sshfs_mount(user = "myself",
+                     remote_server = tunnel,
+                     remote_folder = "~/data_folder",
+                     local_folder = "DATA")
+mount$mount()
+# When done, unmount and close the tunnel.
+sshfs_unmount(mount)
+tunnel_close(tunnel)
+
+}
+
+}
