@@ -125,10 +125,10 @@ sshfs_mount_point <- R6::R6Class("sshfs_mount_point", list(
 
     os <- .sys_type()
 
-    unmount_command <- switch (os,
-                               "Darwin" = "umount",
-                               "Windows" = stop("mountr only works in unix platforms."),
-                               "fusermount -uz"
+    unmount_command <- switch(os,
+                              "Darwin" = "umount",
+                              "Windows" = stop("mountr only works in unix platforms."),
+                              "fusermount -uz"
     )
 
     .check_system("sshfs")
@@ -200,7 +200,7 @@ sshfs_mount_point <- R6::R6Class("sshfs_mount_point", list(
     return(invisible(self))
   },
 
-  funalize = function() {
+  finalize = function() {
     self$unmount()
   },
 
@@ -213,11 +213,11 @@ sshfs_mount_point <- R6::R6Class("sshfs_mount_point", list(
 
   .folder = NA,
   mounted = FALSE
-),
-private = list(
-  mount_command = NA,
-  unmount_command = NA
-)
+  ),
+  private = list(
+    mount_command = NA,
+    unmount_command = NA
+    )
 )
 
 
